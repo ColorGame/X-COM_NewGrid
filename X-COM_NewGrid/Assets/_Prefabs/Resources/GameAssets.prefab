@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4948889189341275951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7765848196561126416}
+  - component: {fileID: 5498922718418336458}
+  m_Layer: 0
+  m_Name: GameAssets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7765848196561126416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4948889189341275951}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5498922718418336458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4948889189341275951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c33287d1bf214439c39005ccdfdd9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grenadeProjectilePrefab: {fileID: 5904272007740657321, guid: 3eec93e5076ba8c458e3aa510691693d,
+    type: 3}
+  bulletProjectilePrefab: {fileID: 1442843218133040567, guid: fb38485b2cf2b7b47b60dda063b8157b,
+    type: 3}
+  gridSystemVisualSinglePrefab: {fileID: 8005569743934790880, guid: 1072dce5c5edd4f4ebc287c19b6a5c43,
+    type: 3}
+  comboPartnerFXPrefab: {fileID: 6081788327355037694, guid: bd1380fd0f6c9bd4cb420ca4f68a14cd,
+    type: 3}
+  grenadeExplosionFXPrefab: {fileID: 6125734487752806136, guid: cd82db3c69485304186c77a2c1ed7066,
+    type: 3}
+  grenadeSmokeFXPrefab: {fileID: 7478375647431571239, guid: 8bf33e12d9a51a7488a498bbbd48666e,
+    type: 3}
+  electricityWhiteFXPrefab: {fileID: 4183575970307780, guid: d2e26db6c77c99c448301c9a114df0c7,
+    type: 3}
+  bulletHitFXPrefab: {fileID: 6125734487752806136, guid: 888bd80ef4e56f344b9dd5ca54b45e5b,
+    type: 3}
+  healFXPrefab: {fileID: 6125734487752806136, guid: ea525c46fa75a60409d72ef0fc841334,
+    type: 3}
+  spotterFireFXPrefab: {fileID: 4979191747963808, guid: b63e286960e48c343a03df8fbd5a8b0d,
+    type: 3}
