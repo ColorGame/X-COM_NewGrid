@@ -18,7 +18,7 @@ public class PlacedObjectTypeSO : ScriptableObject  // размещенный объект типа S
         }
     }
 
-    public static Vector2Int GetDirForwardVector(Dir dir) // Получить направление Forward(z) вектора в зависимости от переданного состояния
+    public static Vector2Int GetDirForwardVector(Dir dir) // Получить направление Forward(y) вектора в зависимости от переданного состояния
     {
         switch (dir)
         {
@@ -95,9 +95,17 @@ public class PlacedObjectTypeSO : ScriptableObject  // размещенный объект типа S
         }
     }
 
-    public List<GridPosition> GetGridPositionList(GridPosition gridPosition, Dir dir) // Список сеточных позиций которые занимает объект относительно переданной сеточной позиции и направлении объекта
+    public Vector3 GetOffsetVisualFromParent()
     {
-        List<GridPosition> gridPositionList = new List<GridPosition>();
+        float x = InventoryGrid.Instance.GetCellSize() * widthX / 2; // Размер ячейки умножим на количество ячеек, которое занимает наш объект по Х и делим пополам
+        float y = InventoryGrid.Instance.GetCellSize() * heightY / 2;
+
+        return new Vector3(x, y, 0);
+    }
+
+    public List<Vector2Int> GetGridPositionList(Vector2Int gridPosition, Dir dir) // Список сеточных позиций которые занимает объект относительно переданной сеточной позиции и направлении объекта
+    {
+        List<Vector2Int> gridPositionList = new List<Vector2Int>();
         switch (dir)
         {
             default:
@@ -107,7 +115,7 @@ public class PlacedObjectTypeSO : ScriptableObject  // размещенный объект типа S
                 {
                     for (int y = 0; y < heightY; y++)
                     {
-                        gridPositionList.Add(gridPosition + new GridPosition(x, y, 0));
+                        gridPositionList.Add(gridPosition + new Vector2Int(x, y));
                     }
                 }
                 break;
@@ -117,7 +125,7 @@ public class PlacedObjectTypeSO : ScriptableObject  // размещенный объект типа S
                 {
                     for (int y = 0; y < widthX; y++)
                     {
-                        gridPositionList.Add(gridPosition + new GridPosition(x, y, 0));
+                        gridPositionList.Add(gridPosition + new Vector2Int(x, y));
                     }
                 }
                 break;

@@ -15,5 +15,5 @@ MonoBehaviour:
   nameString: Pistol
   prefab: {fileID: 3656954414905745779, guid: c7f76b1c45023cb4796c64374a5856f4, type: 3}
   visual: {fileID: 6605713749327058301, guid: 02501de2b44794e4ea2b1fe3b17da24e, type: 3}
-  widthX: 1
-  heightY: 1
+  widthX: 3
+  heightY: 2

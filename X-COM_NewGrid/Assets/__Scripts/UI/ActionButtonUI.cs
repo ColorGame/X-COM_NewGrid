@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static GridSystemVisual;
+using static LevelGridSystemVisual;
 using System;
 
 public class ActionButtonUI : MonoBehaviour // Обрабатываем логику нажатия на кнопку. Лежит на самой кнопке

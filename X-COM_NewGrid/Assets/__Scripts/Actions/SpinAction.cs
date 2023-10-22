@@ -28,9 +28,9 @@ public class SpinAction : BaseAction // Вращение
     }
 
 
-    // Переопределим TakeAction (Применить Действие (Действовать)) // Мы переименовали Spin в TakeAction и добавили в аргумент GridPosition
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // (onActionComplete - по завершении действия). В аргумент будем передовать делегат Action 
-                                                                                        // В данном методе добавлен аргумент который мы не используем - GridPosition _gridPosition - он добавлен лишь для того чтобы соответствовать сигнатуре Базовой функции TakeAction.
+    // Переопределим TakeAction (Применить Действие (Действовать)) // Мы переименовали Spin в TakeAction и добавили в аргумент GridPositionXZ
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete) // (onActionComplete - по завершении действия). В аргумент будем передовать делегат Action 
+                                                                                        // В данном методе добавлен аргумент который мы не используем - GridPositionXZ _gridPositioAnchor - он добавлен лишь для того чтобы соответствовать сигнатуре Базовой функции TakeAction.
                                                                                         // Есть другой способ, создать оттдельный -
                                                                                         // public class BaseParameters{} 
                                                                                         // и наследуемый в котором можно переопределить наш базовый параметр -
@@ -48,12 +48,12 @@ public class SpinAction : BaseAction // Вращение
         return "разворот";
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList() // Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
+    public override List<GridPositionXZ> GetValidActionGridPositionList() // Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
                                                                         // Допустимая сеточная позиция для Действия Вращения будет ячейка где стоит юнит 
     {
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим сеточную позицию юнита 
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим сеточную позицию юнита 
 
-        return new List<GridPosition> // Создадим список и добавим в нее сеточную позицию юнита, а затем вернем ее
+        return new List<GridPositionXZ> // Создадим список и добавим в нее сеточную позицию юнита, а затем вернем ее
         {
             unitGridPosition
         };
@@ -64,7 +64,7 @@ public class SpinAction : BaseAction // Вращение
         return 1;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
     {
         return new EnemyAIAction
         {

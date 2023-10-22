@@ -112,7 +112,7 @@ public class SwordAction : BaseAction // Базовое действие Меч
         return "меч";
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
     {
         return new EnemyAIAction
         {
@@ -121,18 +121,18 @@ public class SwordAction : BaseAction // Базовое действие Меч
         };
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                       
+    public override List<GridPositionXZ> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                       
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        List<GridPositionXZ> validGridPositionList = new List<GridPositionXZ>();
 
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
 
         for (int x = -_maxSwordDistance; x <= _maxSwordDistance; x++) // Юнит это центр нашей позиции с координатами unitGridPosition, поэтому переберем допустимые значения в условном радиусе _maxComboDistance
         {
             for (int z = -_maxSwordDistance; z <= _maxSwordDistance; z++)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z, 0); // Смещенная сеточная позиция. Где началом координат(0,0) является сам юнит 
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
+                GridPositionXZ offsetGridPosition = new GridPositionXZ(x, z, 0); // Смещенная сеточная позиция. Где началом координат(0,0) является сам юнит 
+                GridPositionXZ testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) // Проверим Является ли testGridPosition Допустимой Сеточной Позицией если нет то переходим к след циклу
                 {
@@ -160,7 +160,7 @@ public class SwordAction : BaseAction // Базовое действие Меч
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)  // Переопределим TakeAction (Применить Действие (Действовать). (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete)  // Переопределим TakeAction (Применить Действие (Действовать). (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition); // Получим юнита в которого целимся и сохраним его
 

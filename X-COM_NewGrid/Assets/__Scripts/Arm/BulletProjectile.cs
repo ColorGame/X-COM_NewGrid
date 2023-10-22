@@ -20,10 +20,10 @@ public class BulletProjectile : MonoBehaviour // Снаряд пули
     {
         Vector3 moveDirection = (_targetPosition - transform.position).normalized; // Направление движения, еденичный вектор
 
-        //float distanceBeforeMoving = Vector3.Distance(transform.position, _targetPosition); //(расстояние до движения) Найдем и сохраним растояние до целевого юнита, прежде чем начнем двигаться
+        //float distanceBeforeMoving = Vector3.Distance(transform.position, _targetRotation); //(расстояние до движения) Найдем и сохраним растояние до целевого юнита, прежде чем начнем двигаться
         //float moveSpead = 200f;
         //transform.position += moveDirection * moveSpead * Time.deltaTime; // переместим пулю
-        //float distanceAfterMoving = Vector3.Distance(transform.position, _targetPosition); //(расстояние после движения) Найдем и сохраним растояние до целевого юнита, после начала движения
+        //float distanceAfterMoving = Vector3.Distance(transform.position, _targetRotation); //(расстояние после движения) Найдем и сохраним растояние до целевого юнита, после начала движения
 
         // Если вам нужно сравнить длины только некоторых векторов, вы можете сравнить их квадратную длину, используя sqrMagnitude .
         // Вычисление квадратов величин происходит намного быстрее:

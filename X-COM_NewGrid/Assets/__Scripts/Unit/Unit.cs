@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour // Этот клас будет отвечать за позицию на сетк
     [SerializeField] private bool _isEnemy; //В инспекторе у префаба Врага поставить галочку
 
     // Частные случаи
-    private GridPosition _gridPosition;
+    private GridPositionXZ _gridPosition;
     private HealthSystem _healthSystem;
     private BaseAction[] _baseActionsArray; // Массив базовых действий // Будем использовать при создании кнопок   
     private Rope _unitRope;
@@ -51,7 +51,7 @@ public class Unit : MonoBehaviour // Этот клас будет отвечать за позицию на сетк
 
     private void Start()
     {
-        // Когда Unit запускается он вычисляет свое положение в сетке и добовляет себя к GridObject(объектам сетки) в данной ячейки
+        // Когда Unit запускается он вычисляет свое положение в сетке и добовляет себя к GridObjectUnitXZ(объектам сетки) в данной ячейки
         _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position); //Получим позицию юнита на сетке. Для этого преобразуем мировую позицию ЮНИТА в позицию на СЕТКЕ
         LevelGrid.Instance.AddUnitAtGridPosition(_gridPosition, this); // Зайдем в LevelGrid получим доступ к статическому экземпляру и вызовим AddUnitAtGridPosition
 
@@ -64,11 +64,12 @@ public class Unit : MonoBehaviour // Этот клас будет отвечать за позицию на сетк
 
     private void Update()
     {
-        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position); //Получим новую позицию юнита на сетке.
+        // Можно оптимизировать если добавить условие только когда активно MoveAction или ComboAction
+        GridPositionXZ newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position); //Получим новую позицию юнита на сетке.
         if (newGridPosition != _gridPosition) // Если новая позиция на сетке отличается от последней то ...
         {
             // Изменем положение юнита на сетке
-            GridPosition oldGridPosition = _gridPosition; // Сохраним старую позицию что бы передать в event
+            GridPositionXZ oldGridPosition = _gridPosition; // Сохраним старую позицию что бы передать в event
             _gridPosition = newGridPosition; //Обновим позицию - Новая позиция становиться текущей
 
             LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition); //в UnitMovedGridPosition запускаем Событие. Поэтому эту строку поместим в КОНЦЕЦ . Иначе мы запускаем событие сетка обнавляется а юнит еще не перемещен
@@ -87,7 +88,7 @@ public class Unit : MonoBehaviour // Этот клас будет отвечать за позицию на сетк
         return null; // Если нет совпадений то вернем ноль
     }
 
-    public GridPosition GetGridPosition() // Получить сеточную позицию
+    public GridPositionXZ GetGridPosition() // Получить сеточную позицию
     {
         return _gridPosition;
     }

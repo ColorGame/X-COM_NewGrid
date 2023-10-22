@@ -583,7 +583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeede50a330f070409e2d4c1d2d3447a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invert: 1
 --- !u!1 &1945562495583948580
 GameObject:
   m_ObjectHideFlags: 0
@@ -3464,10 +3463,7 @@ PrefabInstance:
       propertyPath: m_WarningMessage
       value: "\nBinding warning: Some generic clip(s) animate transforms that are
         already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Elbow_L'\n\tTransform 'Spine_03'\n\tTransform
-        'Hand_L'\n\tTransform 'Shoulder_L'\n\tTransform 'Spine_02'\n\tTransform 'Hand_R'\n\tTransform
-        'Elbow_L'\n\tTransform 'Spine_03'\n\tTransform 'Hand_L'\n\tTransform 'Shoulder_L'\n\tand
-        more ...\n\tFrom animation clip 'Firing Rifle'"
+        by Humanoid clips.\n\tTransform 'Hand_L'\n\tFrom animation clip 'Firing Rifle'"
       objectReference: {fileID: 0}
     - target: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274,
         type: 3}
@@ -3849,7 +3845,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3014785634546124049}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
   m_Name: 

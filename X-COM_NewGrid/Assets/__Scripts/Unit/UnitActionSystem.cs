@@ -114,7 +114,7 @@ public class UnitActionSystem : MonoBehaviour // Система действий юнита (ОБРАБОТ
     {
         if (InputManager.Instance.IsMouseButtonDownThisFrame()) // При нажатии лев кнопки мыши 
         {
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPositionOnlyHitVisible()); // Преобразуем позицию мыши из мирового в сеточную.
+            GridPositionXZ mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPositionOnlyHitVisible()); // Преобразуем позицию мыши из мирового в сеточную.
 
             if (!_selectedAction.IsValidActionGridPosition(mouseGridPosition)) // Проверяем для нашего выбранного действия, сеточную позицию мыши на допустимость действий . Если не допустимо то...
             {
@@ -205,7 +205,7 @@ public class UnitActionSystem : MonoBehaviour // Система действий юнита (ОБРАБОТ
     {
         _selectedAction = baseAction;
 
-        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty); // "?"- проверяем что !=0. Invoke вызвать (this-ссылка на объект который запускает событие "отправитель" а класс UnitActionSystemUI  GridSystemVisual будет его прослушивать "обрабатывать")
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty); // "?"- проверяем что !=0. Invoke вызвать (this-ссылка на объект который запускает событие "отправитель" а класс UnitActionSystemUI  LevelGridSystemVisual будет его прослушивать "обрабатывать")
     }
     public BaseAction GetSelectedAction() // Вернуть выбранное действие
     {

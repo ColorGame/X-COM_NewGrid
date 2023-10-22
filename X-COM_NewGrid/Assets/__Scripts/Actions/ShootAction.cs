@@ -77,7 +77,7 @@ public class ShootAction : BaseAction
             case State.Aiming:
 
                 Vector3 aimDirection = (_targetUnit.transform.position - transform.position).normalized; // Направление прицеливания, еденичный вектор
-                aimDirection.y = 0; // Чтобы юнит не наклонялся пли стрельбе (т.к. вектор будет поворачиваться только по плоскости x,z)
+                aimDirection.y = 0; // Чтобы юнит не наклонялся пли стрельбе (т.к. вектор будет поворачиваться только по плоскости x,y)
 
                 float rotateSpeed = 10f; //НУЖНО НАСТРОИТЬ// чем больше тем быстрее
                 transform.forward = Vector3.Slerp(transform.forward, aimDirection, Time.deltaTime * rotateSpeed); // поворт юнита.                               
@@ -146,7 +146,7 @@ public class ShootAction : BaseAction
         //Debug.Log(_state);
     }
 
-    public override void TakeAction(GridPosition targetGridPosition, Action onActionComplete) // Выполнение действий
+    public override void TakeAction(GridPositionXZ targetGridPosition, Action onActionComplete) // Выполнение действий
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(targetGridPosition); // Получим юнита в которого целимся и сохраним его                               
         _targetUnitAimPointPosition = _targetUnit.GetAction<ShootAction>().GetAimPoinTransform().position; // позицию Прицеливания целевого юнита. 
@@ -283,18 +283,18 @@ public class ShootAction : BaseAction
         return "автомат";
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList() //Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
+    public override List<GridPositionXZ> GetValidActionGridPositionList() //Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
     {
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
         return GetValidActionGridPositionList(unitGridPosition);
     }
 
     //Отличается от метода выше сигнатурой.
-    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition) //Получить Список Допустимых Сеточных Позиция для Действий.
+    public List<GridPositionXZ> GetValidActionGridPositionList(GridPositionXZ unitGridPosition) //Получить Список Допустимых Сеточных Позиция для Действий.
                                                                                             //Получить Список Допустимых целей вокруг позиции Юнита
                                                                                             //В аргумент передаем сеточную позицию Юнита                                                                                            
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        List<GridPositionXZ> validGridPositionList = new List<GridPositionXZ>();
 
         int maxShootDistance = GetMaxActionDistance();
         for (int x = -maxShootDistance; x <= maxShootDistance; x++) // Юнит это центр нашей позиции с координатами unitGridPosition, поэтому переберем допустимые значения в условном радиусе maxShootDistance
@@ -304,8 +304,8 @@ public class ShootAction : BaseAction
                 for (int floor = -maxShootDistance; floor <= maxShootDistance; floor++)
                 {
 
-                    GridPosition offsetGridPosition = new GridPosition(x, z, floor); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
-                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
+                    GridPositionXZ offsetGridPosition = new GridPositionXZ(x, z, floor); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
+                    GridPositionXZ testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
 
                     if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) // Проверим Является ли testGridPosition Допустимой Сеточной Позицией если нет то переходим к след циклу
                     {
@@ -349,7 +349,7 @@ public class ShootAction : BaseAction
                     }
 
                     /*Debug.DrawRay(unitWorldPosition + Vector3.up * (shootPoint.y + reserveHeight),
-                        shototDirection * Vector3.Distance(unitWorldPosition, startUnit.GetWorldPosition()),
+                        shototDirection * Vector3.Distance(unitWorldPosition, startUnit.GetWorldPositionCenterСornerCell()),
                         Color.red,
                         999);*/
 
@@ -362,7 +362,7 @@ public class ShootAction : BaseAction
         return validGridPositionList;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ  для переданной нам сеточной позиции// Переопределим абстрактный базовый метод //EnemyAIAction создан в каждой Допустимой Сеточнй Позиции, наша задача - настроить каждую ячейку в зависимости от состоянии юнита который там стоит
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ  для переданной нам сеточной позиции// Переопределим абстрактный базовый метод //EnemyAIAction создан в каждой Допустимой Сеточнй Позиции, наша задача - настроить каждую ячейку в зависимости от состоянии юнита который там стоит
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition); // Получим юнита для этой позиции это наша цель
 
@@ -401,7 +401,7 @@ public class ShootAction : BaseAction
         _haveSpotterFire = false;
     }
 
-    public int GetTargetCountAtPosition(GridPosition gridPosition) // Получить Количество Целей На Позиции
+    public int GetTargetCountAtPosition(GridPositionXZ gridPosition) // Получить Количество Целей На Позиции
     {
         return GetValidActionGridPositionList(gridPosition).Count; // Получим количество целей из списка Допустимых целей
     }

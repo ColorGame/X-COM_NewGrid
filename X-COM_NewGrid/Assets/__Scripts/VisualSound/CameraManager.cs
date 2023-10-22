@@ -83,7 +83,7 @@ public class CameraManager : MonoBehaviour
                     (shootDirection * -1);              //сдвинем камеру назад
 
                 _actionCameraGameObject.transform.position = actionCameraPosition; // Переместим нашу экшен камеру в настроенную позицию
-                _actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + cameraCharacterHeight); // Посмотрим в сторону врага на высоту cameraCharacterHeight (startUnit.GetWorldPosition() вернет позицию у основания ног)
+                _actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + cameraCharacterHeight); // Посмотрим в сторону врага на высоту cameraCharacterHeight (startUnit.GetWorldPositionCenterСornerCell() вернет позицию у основания ног)
 
                 ShowActionCamera();
                 break;
@@ -106,7 +106,7 @@ public class CameraManager : MonoBehaviour
                     (swordDirection * -2);          //сдвинем камеру назад
 
                 _actionCameraGameObject.transform.position = actionCameraSwordPosition;
-                _actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + Vector3.up * 1f); // Посмотрим в сторону врага на высоту плеча (startUnit.GetWorldPosition() вернет позицию у основания ног)
+                _actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + Vector3.up * 1f); // Посмотрим в сторону врага на высоту плеча (startUnit.GetWorldPositionCenterСornerCell() вернет позицию у основания ног)
 
                 ShowActionCamera();
                 break;

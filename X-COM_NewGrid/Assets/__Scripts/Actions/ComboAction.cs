@@ -34,7 +34,7 @@ public class ComboAction : BaseAction // Комбо // Действие могут выполнить тольк
     private float _stateTimer; //Таймер состояния
     private Unit _unitPartner; // Юнит партнер с которым будем делать Комбо
     private Unit _unitEnemy;  // Юнит ВРАГ    
-    private GridPosition _targetPointEnemyGridPosition; // Точка перемещения врага
+    private GridPositionXZ _targetPointEnemyGridPosition; // Точка перемещения врага
     private Transform _instantiateFXPrefab; // Созданный префаб частичек
     private RopeRanderer _ropeRandererUnit;
     private RopeRanderer _ropeRandererParten;
@@ -232,7 +232,7 @@ public class ComboAction : BaseAction // Комбо // Действие могут выполнить тольк
         return "крюк";
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
     {
         return new EnemyAIAction
         {
@@ -241,19 +241,19 @@ public class ComboAction : BaseAction // Комбо // Действие могут выполнить тольк
         };
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                     
+    public override List<GridPositionXZ> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                     
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        List<GridPositionXZ> validGridPositionList = new List<GridPositionXZ>();
 
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
 
         int maxComboDistance = GetMaxActionDistance();
         for (int x = -maxComboDistance; x <= maxComboDistance; x++) // Юнит это центр нашей позиции с координатами unitGridPosition, поэтому переберем допустимые значения в условном радиусе maxComboDistance
         {
             for (int z = -maxComboDistance; z <= maxComboDistance; z++)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z, 0); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
+                GridPositionXZ offsetGridPosition = new GridPositionXZ(x, z, 0); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
+                GridPositionXZ testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
                 Unit targetUnit = null;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) // Проверим Является ли testGridPosition Допустимой Сеточной Позицией если нет то переходим к след циклу
@@ -344,7 +344,7 @@ public class ComboAction : BaseAction // Комбо // Действие могут выполнить тольк
                             continue;
                         }
 
-                        /*//если в этой позиции нет узла пути GraphNode  значит эта GridPosition недоступна для хотьбы (стена, колона) или висит в воздухе)              
+                        /*//если в этой позиции нет узла пути GraphNode  значит эта GridPositionXZ недоступна для хотьбы (стена, колона) или висит в воздухе)              
                         if (!LevelGrid.Instance.WalkableNode(testGridPosition))
                         {
                             continue; // Пропустим эту позицию
@@ -382,13 +382,13 @@ public class ComboAction : BaseAction // Комбо // Действие могут выполнить тольк
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // Выполнение действий  (onActionComplete - по завершении действия). В аргумент будем передовать делегат Action 
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete) // Выполнение действий  (onActionComplete - по завершении действия). В аргумент будем передовать делегат Action 
     {   
         SetupTakeActionFromState(gridPosition);
         ActionStart(onActionComplete); // Вызовим базовую функцию СТАРТ ДЕЙСТВИЯ разрешает доступ к UPDATE// Вызываем этот метод в конце после всех настроек т.к. в этом методе есть EVENT и он должен запускаться после всех настроек
     }
 
-    private void SetupTakeActionFromState(GridPosition gridPosition) //Настроить Выполнение действий в зависимости от состояния
+    private void SetupTakeActionFromState(GridPositionXZ gridPosition) //Настроить Выполнение действий в зависимости от состояния
     {
         switch (_state)
         {

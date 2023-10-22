@@ -9,7 +9,7 @@ public class InteractAction : BaseAction // Действие взаимодействия
     public static event EventHandler OnAnyInteractActionComplete; // Любое взаимодействие завершено
 
     private int _maxInteractDistance = 1; // Дистанция взаимодействия
-    private GridPosition _targetGridPosition;
+    private GridPositionXZ _targetGridPosition;
 
     private void Update()
     {
@@ -34,7 +34,7 @@ public class InteractAction : BaseAction // Действие взаимодействия
         return "взаимодействие";
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ  для переданной нам сеточной позиции// Переопределим абстрактный базовый метод //EnemyAIAction создан в каждой Допустимой Сеточнй Позиции, наша задача - настроить каждую ячейку в зависимости от состоянии юнита который там стоит
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ  для переданной нам сеточной позиции// Переопределим абстрактный базовый метод //EnemyAIAction создан в каждой Допустимой Сеточнй Позиции, наша задача - настроить каждую ячейку в зависимости от состоянии юнита который там стоит
     {
         return new EnemyAIAction
         {
@@ -43,18 +43,18 @@ public class InteractAction : BaseAction // Действие взаимодействия
         };
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList() // Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию  
+    public override List<GridPositionXZ> GetValidActionGridPositionList() // Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию  
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        List<GridPositionXZ> validGridPositionList = new List<GridPositionXZ>();
 
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
 
         for (int x = -_maxInteractDistance; x <= _maxInteractDistance; x++) // Юнит это центр нашей позиции с координатами unitGridPosition, поэтому переберем допустимые значения в условном радиусе _maxInteractDistance
         {
             for (int z = -_maxInteractDistance; z <= _maxInteractDistance; z++)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z, 0);  // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;  // Тестируемая Сеточная позиция
+                GridPositionXZ offsetGridPosition = new GridPositionXZ(x, z, 0);  // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
+                GridPositionXZ testGridPosition = unitGridPosition + offsetGridPosition;  // Тестируемая Сеточная позиция
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) // Проверим Является ли testGridPosition Допустимой Сеточной Позицией если нет то переходим к след циклу
                 {
@@ -86,7 +86,7 @@ public class InteractAction : BaseAction // Действие взаимодействия
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // Переопределим TakeAction (Применить Действие (Действовать). (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete) // Переопределим TakeAction (Применить Действие (Действовать). (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
     {
         IInteractable interactable = LevelGrid.Instance.GetInteractableAtGridPosition(gridPosition); // Получим IInteractable(интерфейс взаимодействия) из переданной сеточной позиции // НАМ БЕЗ РАЗНИЦЫ КАКОЙ ОБЪЕКТ МЫ ПОЛУЧИМ (дверь, сфера, кнопка...) - лиш бы он реализовал этот интерфейс
         SoundManager.Instance.PlaySoundOneShot(SoundManager.Sound.Interact);

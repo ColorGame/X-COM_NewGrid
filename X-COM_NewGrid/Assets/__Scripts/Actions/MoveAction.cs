@@ -21,8 +21,8 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
     public event EventHandler<OnChangeFloorsStartedEventArgs> OnChangedFloorsStarted; // Начали менять этажи 
     public class OnChangeFloorsStartedEventArgs : EventArgs // Расширим класс событий, чтобы в аргументе события передать Сеточную позицию Юнита и Целевой позиции
     {
-        public GridPosition unitGridPosition; // Откуда прыгаем
-        public GridPosition targetGridPosition; // КУда прыгаем
+        public GridPositionXZ unitGridPosition; // Откуда прыгаем
+        public GridPositionXZ targetGridPosition; // КУда прыгаем
     }
 
     [SerializeField] private int maxMoveDistance = 5; // Максимальная дистанция движения в сетке
@@ -32,7 +32,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
     private bool _isChangingFloors; // это смена этажей
     private float _differentFloorsTeleportTimer; // Таймер телепортации на разные этажи
     private float _differentFloorsTeleportTimerMax = .5f; // Максимальный таймер телепортации на разные этажи (это время воспроизведения анимации прыжка или падения)
-    private List<GridPosition> _validGridPositionList = new List<GridPosition>(); // Список Допустимых Сеточных Позиция для Действий
+    private List<GridPositionXZ> _validGridPositionList = new List<GridPositionXZ>(); // Список Допустимых Сеточных Позиция для Действий
 
 #if PATHFINDING
     private BlockManager.TraversalProvider _traversalProvider; // Поставщик(провайдер) обхода
@@ -135,8 +135,8 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
             {
                 targetPosition = _positionList[_currentPositionIndex]; // Целевой позицией будет позиция из листа с заданным индексом
 
-                GridPosition targetGridPosition = LevelGrid.Instance.GetGridPosition(targetPosition); // Получим сеточную позицию Целевой позиции
-                GridPosition unitGridPosition = LevelGrid.Instance.GetGridPosition(transform.position); // Получим сеточную позицию Юнита                               
+                GridPositionXZ targetGridPosition = LevelGrid.Instance.GetGridPosition(targetPosition); // Получим сеточную позицию Целевой позиции
+                GridPositionXZ unitGridPosition = LevelGrid.Instance.GetGridPosition(transform.position); // Получим сеточную позицию Юнита                               
                 
                 if (targetGridPosition.floor != unitGridPosition.floor) // Если этаж Целевой позииции не совпадает с этажом Юнита то ...              
                 {
@@ -155,7 +155,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
     }
 
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // Движение к целевой позиции. В аргумент передаем сеточную позицию  и делегат. Вызываю ее для передачи новой целевой позиции
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete) // Движение к целевой позиции. В аргумент передаем сеточную позицию  и делегат. Вызываю ее для передачи новой целевой позиции
     {
 #if PATHFINDING
         _path = ABPath.Construct(transform.position, LevelGrid.Instance.GetWorldPosition(gridPosition)); // построим
@@ -197,7 +197,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
                     continue;
                 }
 
-                GridPosition nodeGridPosition = LevelGrid.Instance.GetGridPosition((Vector3)node.position);
+                GridPositionXZ nodeGridPosition = LevelGrid.Instance.GetGridPosition((Vector3)node.position);
                 _validGridPositionList.Add(nodeGridPosition); // Добавляем в список те позиции которые прошли все тесты
 
                 OnAnyUnitPathComplete?.Invoke(this, _unit); // Запустим событие
@@ -227,7 +227,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
         }
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList() //Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
+    public override List<GridPositionXZ> GetValidActionGridPositionList() //Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию
     {       
         return _validGridPositionList;
     }
@@ -252,7 +252,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
                 continue;
             }
 
-            GridPosition nodeGridPosition = LevelGrid.Instance.GetGridPosition((Vector3)node.position);
+            GridPositionXZ nodeGridPosition = LevelGrid.Instance.GetGridPosition((Vector3)node.position);
             _validGridPositionList.Add(nodeGridPosition); // Добавляем в список те позиции которые прошли все тесты
 
             OnAnyUnitPathComplete?.Invoke(this, _unit); // Запустим событие
@@ -323,7 +323,7 @@ public class MoveAction : BaseAction // Действие перемещения НАСЛЕДУЕТ класс Bas
         return "движение";
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
     {
         int targetCountAtPosition = _unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition); // У юнита вернем скрипт ShootAction и вызовим у него "Получить Количество Целей На Позиции"
                                                                                                            //Я думаю, что самым простым было бы просто иметь метод, который будет подсчитывать врагов в пределах определенного радиуса определенной позиции сетки. Тогда вы можете указать радиус в сериализованном поле и не связывать одно действие с другим (Move и Shoot)

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GridSystemVisual;
+using static LevelGridSystemVisual;
 // ВАЖНО // Скрипт и маску слоя Cover закидываем только на объекты ниже 1,4м. (это условие НЕраспространяется на Smoke)
 // Если объект выше 1,4м (это высота точки выстрела у стоящего юнита), то он становиться OBSTACLES-препядствием, т.к. объект не простреливается (точность падает до 0%). 
 // CoverFull -1,4м 

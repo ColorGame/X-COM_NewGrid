@@ -8,21 +8,18 @@ public class MouseEnterExitEventsUI : MonoBehaviour, IPointerEnterHandler, IPoin
                                                                                                           // Обрабатывает когда мыш проходит по объекту и выходит из объета
                                                                                                           // Будем применять при наведении на кнопки выбора зданий
                                                                                                           // У background подсказки надо убрать галочку Raycast target
-{
-
+{ 
     public event EventHandler OnMouseEnter; // Событие - при входе мыши
     public event EventHandler OnMouseExit; // Событие - при выходе мыши
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        OnMouseEnter?.Invoke(this, EventArgs.Empty); // Запустим событие
-
-        Debug.Log("вошли");
+        OnMouseEnter?.Invoke(this, EventArgs.Empty); // Запустим событие       
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        OnMouseExit?.Invoke(this, EventArgs.Empty); // Запустим событие
+        OnMouseExit?.Invoke(this, EventArgs.Empty); // Запустим событие       
     }
 
 }

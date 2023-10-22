@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour // Шкала здоровья будет смотреть в сторону камеры
 {
-    [SerializeField] private bool _invert; // для 1 МЕТОДА поворота (ставим галочку если надо инвертировать)
+    //[SerializeField] private bool _invert; // для 1 МЕТОДА поворота (ставим галочку если надо инвертировать)
 
     private Transform _cameraTransform;
 

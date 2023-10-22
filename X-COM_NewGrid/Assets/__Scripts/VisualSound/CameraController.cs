@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour // В дальнейшем можно сделать рефа
         }               
 
         //Чтобы Движение учитывало вращение преобразуем вектор inputMoveDirection в moveVector
-        Vector3 moveVector = transform.forward * inputMoveDirection.y + transform.right * inputMoveDirection.x; // Применим локальное смещение. Локальным вектор forward(z) изменим на inputMoveDirection.y, а Локальным вектор right(x) изменим на inputMoveDirection.x
+        Vector3 moveVector = transform.forward * inputMoveDirection.y + transform.right * inputMoveDirection.x; // Применим локальное смещение. Локальным вектор forward(y) изменим на inputMoveDirection.y, а Локальным вектор right(x) изменим на inputMoveDirection.x
         Vector3 targetPosition = transform.position + moveVector * _moveSpeed * Time.deltaTime; //расчитаем целевую позицию в которую хотим  переместить наш объект
 
         //ограничим движение

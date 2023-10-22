@@ -15,5 +15,5 @@ MonoBehaviour:
   nameString: Sword
   prefab: {fileID: 447939446232380800, guid: bb7a8d7bfb8254a4993344b7003e2bfa, type: 3}
   visual: {fileID: 2926091311671896829, guid: c4182d022ca182a43b039e8077932309, type: 3}
-  widthX: 2
-  heightY: 1
+  widthX: 5
+  heightY: 2

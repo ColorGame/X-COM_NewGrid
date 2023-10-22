@@ -17,7 +17,7 @@ public class GrenadeFragmentationAction : GrenadeAction // Осколочная граната
             grenadeProjectile.Setup(_targetGridPositin, TypeGrenade.Fragmentation, OnGrenadeBehaviorComplete, _grenadeDamage); // И вызовим функцию Setup() передав в нее целевую позицию (сеточныая позиция курсора мыши) Тип ГРАНАТЫ и передадим в делегат функцию OnGrenadeBehaviorComplete ( при взрыве гранаты будем вызывать эту функцию)
         }
     }
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
+    public override EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition) //Получить действие вражеского ИИ // Переопределим абстрактный базовый метод
     {
         return new EnemyAIAction
         {

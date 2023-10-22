@@ -37,7 +37,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
                                            //СВОЙСТВО Делегата. После выполнения функции в которую мы передали делегата, можно ПОЗЖЕ, в определенном месте кода, выполниться сохраненный делегат.
                                            //СВОЙСТВО Делегата. Может вызывать закрытую функцию из другого класса
 
-    private List<GridPosition> _doorGridPositionList = new List<GridPosition>();
+    private List<GridPositionXZ> _doorGridPositionList = new List<GridPositionXZ>();
 
 
 
@@ -51,7 +51,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
 
     private void Start()
     {
-        foreach (GridPosition gridPosition in GetDoorGridPositionList()) // Переберем список сеточных позиции которые занимает Дверь
+        foreach (GridPositionXZ gridPosition in GetDoorGridPositionList()) // Переберем список сеточных позиции которые занимает Дверь
         {
             LevelGrid.Instance.SetInteractableAtGridPosition(gridPosition, this); // в полученную сеточную позицию установим наш дочерний объект Дверь с Интерфейсом Interactable(взаимодействия)            
         }        
@@ -119,9 +119,9 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
         _animator.CrossFade(_animBase.DoorOpen, 0.2f);
         //_animator.SetBool("IsOpen", _isOpen); // Настроим булевую переменную "GetIsOpen". Передадим ей значение _isOpen        
 
-        foreach (GridPosition gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
+        foreach (GridPositionXZ gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
         {
-            // PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPosition, true); // Установим что Можно ходить по этой сеточной позиции
+            // PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPositioAnchor, true); // Установим что Можно ходить по этой сеточной позиции
             GraphNode graphNode = LevelGrid.Instance.GetGridNode(gridPosition); // Получим проверяемый узел
             BlockManager.Instance.InternalUnblock(graphNode, _singleNodeBlocker); // Разблокируем узлы
         }
@@ -137,7 +137,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
         var selectorList = new List<SingleNodeBlocker>() { _singleNodeBlocker };   // Список препядсвтий которые будем игнорировать. Закинем туда саму дверь
 
         // Проверим проем дверей вдруг там ЮНИТ
-        foreach (GridPosition gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
+        foreach (GridPositionXZ gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
         {           
             GraphNode graphNode = LevelGrid.Instance.GetGridNode(gridPosition); // Получим проверяемый узел
             if (BlockManager.Instance.NodeContainsAnyExcept(graphNode, selectorList)) // Если это узел заблокированна Юнитом. Есть другой (SingleNodeBlocker), занимающий тот же узел, что и дверь
@@ -147,9 +147,9 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
             }           
         }
                
-        foreach (GridPosition gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
+        foreach (GridPositionXZ gridPosition in _doorGridPositionList) // Переберем список сеточных позиции которые занимает Дверь
         {
-            //  PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPosition, false); // Установим что Нельзя ходить по этой сеточной позиции
+            //  PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPositioAnchor, false); // Установим что Нельзя ходить по этой сеточной позиции
             GraphNode graphNode = LevelGrid.Instance.GetGridNode(gridPosition); // Получим проверяемый узел
             BlockManager.Instance.InternalBlock(graphNode, _singleNodeBlocker); // Заблокируем узел
         }
@@ -160,14 +160,14 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
         SoundManager.Instance.PlaySoundOneShot(SoundManager.Sound.DoorOpen);
     }
 
-    private List<GridPosition> GetDoorGridPositionList() //Получить Список Сеточных позиций двери  
+    private List<GridPositionXZ> GetDoorGridPositionList() //Получить Список Сеточных позиций двери  
     {
         //Большие двери и те, через которые можно стрелять https://community.gamedev.tv/t/larger-doors-and-doors-that-can-be-shot-through/220723*/
 
         float offsetFromEdgeGrid = 0.01f; // Смещение от Края Сетки (ячейки) //НУЖНО НАСТРОИТЬ//
 
-        GridPosition childreGridPositionLeft = LevelGrid.Instance.GetGridPosition(_transformChildrenDoorArray[1].position + _transformChildrenDoorArray[1].right * offsetFromEdgeGrid); // Определим сеточную позицию Дочернего объекта двери Левая створока двери (сместимся от границы ячейки что бы не попасть на соседнию слева)
-        GridPosition childreGridPositionRight = LevelGrid.Instance.GetGridPosition(_transformChildrenDoorArray[2].position - _transformChildrenDoorArray[2].right * offsetFromEdgeGrid); // Определим сеточную позицию Дочернего объекта двери Правая створока двери (сместимся от границы ячейки что бы не попасть на соседнию справа)
+        GridPositionXZ childreGridPositionLeft = LevelGrid.Instance.GetGridPosition(_transformChildrenDoorArray[1].position + _transformChildrenDoorArray[1].right * offsetFromEdgeGrid); // Определим сеточную позицию Дочернего объекта двери Левая створока двери (сместимся от границы ячейки что бы не попасть на соседнию слева)
+        GridPositionXZ childreGridPositionRight = LevelGrid.Instance.GetGridPosition(_transformChildrenDoorArray[2].position - _transformChildrenDoorArray[2].right * offsetFromEdgeGrid); // Определим сеточную позицию Дочернего объекта двери Правая створока двери (сместимся от границы ячейки что бы не попасть на соседнию справа)
 
         //_doorGridPositionList = PathfindingMonkey.Instance.FindPath(childreGridPositionRight, childreGridPositionLeft, out int pathLength); // Зависимость от поиска пути
 
@@ -179,7 +179,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
             {
                 for (int z = childreGridPositionLeft.z; z <= childreGridPositionRight.z; z++)  // переберем сеточные позиции по оси Z (преберем ячейки от левой створки до правой).
                 {
-                    GridPosition testGridPosition = new GridPosition(childreGridPositionLeft.x, z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Z. Сеточную позицию по X можно взять любой створки
+                    GridPositionXZ testGridPosition = new GridPositionXZ(childreGridPositionLeft.x, z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Z. Сеточную позицию по X можно взять любой створки
 
                     _doorGridPositionList.Add(testGridPosition); // Добавим в список тестируемую ячейку    
                 }
@@ -189,7 +189,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
             {
                 for (int z = childreGridPositionRight.z; z <= childreGridPositionLeft.z; z++)  // переберем сеточные позиции по оси Z (преберем ячейки от правой створки до левой).
                 {
-                    GridPosition testGridPosition = new GridPosition(childreGridPositionLeft.x, z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Z. Сеточную позицию по X можно взять любой створки
+                    GridPositionXZ testGridPosition = new GridPositionXZ(childreGridPositionLeft.x, z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Z. Сеточную позицию по X можно взять любой створки
 
                     _doorGridPositionList.Add(testGridPosition); // Добавим в список тестируемую ячейку    
                 }
@@ -203,7 +203,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
             {
                 for (int x = childreGridPositionLeft.x; x <= childreGridPositionRight.x; x++)  // переберем сеточные позиции по оси Х (преберем ячейки от левой створки до правой).
                 {
-                    GridPosition testGridPosition = new GridPosition(x, childreGridPositionLeft.z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Х. Сеточную позицию по Z можно взять любой створки
+                    GridPositionXZ testGridPosition = new GridPositionXZ(x, childreGridPositionLeft.z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Х. Сеточную позицию по Z можно взять любой створки
 
                     _doorGridPositionList.Add(testGridPosition); // Добавим в список тестируемую ячейку    
                 }
@@ -213,7 +213,7 @@ public class DoorInteract : MonoBehaviour, IInteractable //Дверь-Взаимодействия 
             {
                 for (int x = childreGridPositionRight.x; x <= childreGridPositionLeft.x; x++)  // переберем сеточные позиции по оси Х (преберем ячейки от правой створки до левой).
                 {
-                    GridPosition testGridPosition = new GridPosition(x, childreGridPositionLeft.z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Х. Сеточную позицию по Z можно взять любой створки
+                    GridPositionXZ testGridPosition = new GridPositionXZ(x, childreGridPositionLeft.z, childreGridPositionLeft.floor); // Тестируемая сеточная позиция по оси Х. Сеточную позицию по Z можно взять любой створки
 
                     _doorGridPositionList.Add(testGridPosition); // Добавим в список тестируемую ячейку    
                 }

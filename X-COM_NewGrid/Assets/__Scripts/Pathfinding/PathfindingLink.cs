@@ -5,8 +5,8 @@ using UnityEngine;
 public class PathfindingLink // Ссылка для поиска пути
 {
     // Сеточные позии
-    public GridPosition gridPositionA;
-    public GridPosition gridPositionB;
+    public GridPositionXZ gridPositionA;
+    public GridPositionXZ gridPositionB;
 
 }
 

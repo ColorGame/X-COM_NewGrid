@@ -113,7 +113,7 @@ public class UnitAnimator : MonoBehaviour // Анимация юнита(ПЛАНЫ: в дальнейшем 
         EquipRifleHand_R(); // Включим винтовку
 
         //Буду создавть в Анимации через AnimationEvent (HandleAnimationEvents)
-        //Instantiate(_healFXPrefab, unit.GetWorldPosition(), Quaternion.LookRotation(Vector3.up)); // Создадим префаб частиц для юнита которого исцеляем (Не забудь в инспекторе включить у частиц Stop Action - Destroy)
+        //Instantiate(_healFXPrefab, unit.GetWorldPositionCenterСornerCell(), Quaternion.LookRotation(Vector3.up)); // Создадим префаб частиц для юнита которого исцеляем (Не забудь в инспекторе включить у частиц Stop Action - Destroy)
     }
 
     private void SwordAction_OnSwordActionStarted(object sender, EventArgs e)

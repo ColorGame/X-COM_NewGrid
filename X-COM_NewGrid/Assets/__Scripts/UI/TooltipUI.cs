@@ -42,6 +42,12 @@ public class TooltipUI : MonoBehaviour// Всплывающая подсказка в ПОЛЬЗОВАТЕЛЬСКО
         }
     }
 
+    public TooltipTimer GetTooltipTimer(float timer)
+    {
+        tooltipTimer.timer = timer;
+        return tooltipTimer;
+    }
+
     private void HandleFollowMouse()// Обработка следования за мышью
     {
         // У Canvas - холста есть свое масштабирование Canvas Scale, которое мы настроили 1280*720. При изминении размеров Game сцены происходит изменение Scale(масштаб) на холсте

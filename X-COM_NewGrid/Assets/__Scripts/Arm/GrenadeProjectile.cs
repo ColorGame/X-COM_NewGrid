@@ -109,12 +109,12 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
         float maxHeight = _totalDistance / 4f + _floor * _floorHeight;// Высота полета гранаты сделаем зависимой от дальности полета и от этажа на который кидаем гранату (что бы при коротких бросках полет выглядел естественее) //НУЖНО НАСТРОИТЬ//
         float positionY = _arcYAnimationCurve.Evaluate(currentDistanceNormalized) * maxHeight; // Получим позицию У из анимационной кривой  и умножим на макс высоту полета
 
-        transform.position = new Vector3(transform.position.x, positionY, transform.position.z); //Переместим гранату с учетом анимационной кривой
+        transform.position = new Vector3(transform.position.x, positionY, transform.position.y); //Переместим гранату с учетом анимационной кривой
 
         float reachedTargetDistance = 0.2f; // достигнутое целевое расстояние
         if (_currentDistance < reachedTargetDistance) // Если граната достаточно близко то ШАРАХНЕМ ЕЮ
         {
-            Collider[] colliderArray = Physics.OverlapSphere(_targetPosition, _damageRadiusInWorldPosition); //В зоне взрыва - вычислим и сохраним массив со всеми коллайдерами, соприкасающимися со сферой или находящиеся внутри нее.
+            Collider[] colliderArray = Physics.OverlapSphere(_targetRotation, _damageRadiusInWorldPosition); //В зоне взрыва - вычислим и сохраним массив со всеми коллайдерами, соприкасающимися со сферой или находящиеся внутри нее.
 
             foreach (Collider collider in colliderArray)  // переберем массив колайдеров
             {
@@ -126,7 +126,7 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
                     //1//*//*
 
                     //2// СПОСОБ УРОН ЗАВИСИТ ОТ РАССТОЯНИЯ
-                    float distanceToUnit = Vector3.Distance(startUnit.GetWorldPosition(), _targetPosition); // Растояние от центра взрыва до юнита который попал в радиус взрыва
+                    float distanceToUnit = Vector3.Distance(startUnit.GetWorldPositionCenterСornerCell(), _targetRotation); // Растояние от центра взрыва до юнита который попал в радиус взрыва
                     float distanceToUnitNormalized = distanceToUnit / _damageRadiusInWorldPosition; // Шкалу времени AnimationCurve (горизонтальная ось) заменим на нормализованное растояние до юнита (distanceToUnit<=damageRadius поэтому значение будет от 0 до 1. Если Юнит находиться центре взрыва то distanceToUnit =0 тогда distanceToUnitNormalized тоже = 0, тогда анимационный график вернет значение вертикальной оси в нулевой момент времени это значение будет =1)
                     int damageAmountFromDistance = Mathf.RoundToInt(_grenadeDamage * _damageMultiplierAnimationCurve.Evaluate(distanceToUnitNormalized)); //Величина повреждения от растояния. Округлим до целого и переведем в int т.к. Damage() принимает целые числа
 
@@ -142,11 +142,11 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
 
             }
 
-            OnAnyGrenadeExploded?.Invoke(this, EventArgs.Empty);// Вызовим событие
+            OnAnyGrenadeExploded?.Invoke(this, EventArgs.Empty0);// Вызовим событие
 
             _trailRenderer.transform.parent = null; // Отсоеденим трэйл от родителя что бы он еще жил. А в инсепкторе поставим галочку Autodestruct - уничтожение после завершения ортрисовки
 
-            Instantiate(_grenadeExplosionFXPrefab, _targetPosition, Quaternion.LookRotation(Vector3.up)); //Создадим частьички взрыва . Развернем что бы ось Z смотрела вверх т.к. у нас область взрыва это полусфера
+            Instantiate(_grenadeExplosionFXPrefab, _targetRotation, Quaternion.LookRotation(Vector3.up)); //Создадим частьички взрыва . Развернем что бы ось Z смотрела вверх т.к. у нас область взрыва это полусфера
 
             Destroy(gameObject);
 
@@ -234,7 +234,7 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
 
     }
 
-    public void Setup(GridPosition targetGridPosition, TypeGrenade typeGrenade, Action onGrenadeBehaviorComplete, int grenadeDamage) // Настройка гранаты. В аргумент передаем целевую позицию, тип гранаты и также  В аргумент будем передовать делегат типа Action (onGrenadeBehaviorComplete - На Гранате Действие ЗАвершено)
+    public void Setup(GridPositionXZ targetGridPosition, TypeGrenade typeGrenade, Action onGrenadeBehaviorComplete, int grenadeDamage) // Настройка гранаты. В аргумент передаем целевую позицию, тип гранаты и также  В аргумент будем передовать делегат типа Action (onGrenadeBehaviorComplete - На Гранате Действие ЗАвершено)
     {
         _grenadeDamage = grenadeDamage;
         _typeGrenade = typeGrenade;
@@ -255,10 +255,10 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
         _positionXZ = transform.position; // Сохраним текущую позиции по оси Х при этом обнулим У состовляющию
         _positionXZ.y = 0;
 
-        _totalDistance = Vector3.Distance(transform.position, _targetPosition);  //Вычислим дистанцию между гранатой и целью (чтобы не вычеслять каждый кадр в update)
+        _totalDistance = Vector3.Distance(transform.position, _targetRotation);  //Вычислим дистанцию между гранатой и целью (чтобы не вычеслять каждый кадр в update)
         _currentDistance = _totalDistance; // Текцщие расстояние в начале равно всему расстоянию
 
-        _moveDirection = (_targetPosition - transform.position).normalized; //Вычислим вектор Направление движения гранаты (чтобы не вычеслять каждый кадр в update т.к. оно не меняется)
+        _moveDirection = (_targetRotation - transform.position).normalized; //Вычислим вектор Направление движения гранаты (чтобы не вычеслять каждый кадр в update т.к. оно не меняется)
         //АНИМ.КРИВАЯ.У//*/
     }
 
@@ -288,7 +288,7 @@ public class GrenadeProjectile : MonoBehaviour // Гранатный снаряд
         private void OnDrawGizmos() // Для рисования вспогательных объектов в сцене, в нашем случае круг действия гранаты
         {
             Handles.color = Color.red;
-            Handles.DrawWireDisc(_targetPosition, Vector3.up , _damageRadiusInCells * LevelGrid.Instance.GetCellSize(), 4f);
+            Handles.DrawWireDisc(_targetRotation, Vector3.up , _damageRadiusInCells * LevelGrid.Instance.GetCellSize(), 4f);
         }
     #endif // При создании билда этот кусок кода не будет в него включаться а будет работать только в EDITOR(редактор)*/
 

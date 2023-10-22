@@ -15,7 +15,7 @@ public class SphereInteract : MonoBehaviour, IInteractable // Взаимодействие с С
 
     [SerializeField] private bool _isGreen; //Он зеленый (для отслеживания состояния шара)
 
-    private GridPosition _gridPosition; // Сеточная позиция шара    
+    private GridPositionXZ _gridPosition; // Сеточная позиция шара    
     private Action _onInteractionComplete; // Делегат Взаимодействие Завершено// Объявляю делегат в пространстве имен - using System;
                                            //Сохраним наш делегат как обыкновенную переменную (в ней будет храниться функия которую мы передадим).
                                            //Action- встроенный делегат. Есть еще встроен. делегат Func<>. 

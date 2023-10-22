@@ -13,13 +13,13 @@ public class MouseWorld : MonoBehaviour // Класс отвечающий за положение курсора
     public static event EventHandler<OnMouseGridPositionChangedEventArgs> OnMouseGridPositionChanged; // Событие позиция мыши на сетке изменилось
     public class OnMouseGridPositionChangedEventArgs : EventArgs // Расширим класс событий, чтобы в аргументе события передать
     {
-        public GridPosition lastMouseGridPosition; // Прошлая сеточная позиция мыши
-        public GridPosition newMouseGridPosition;  // Новая сеточная позиция мыши
+        public GridPositionXZ lastMouseGridPosition; // Прошлая сеточная позиция мыши
+        public GridPositionXZ newMouseGridPosition;  // Новая сеточная позиция мыши
     }
 
     [SerializeField] private LayerMask _mousePlaneLayerMask; // маска слоя плоскости мыши (появится в ИНСПЕКТОРЕ)
 
-   private GridPosition _mouseGridPosition;  // сеточная позиция мыши
+   private GridPositionXZ _mouseGridPosition;  // сеточная позиция мыши
 
 
     private void Awake()
@@ -47,7 +47,7 @@ public class MouseWorld : MonoBehaviour // Класс отвечающий за положение курсора
 
     private void Update()
     {
-        GridPosition newMouseGridPosition = LevelGrid.Instance.GetGridPosition(GetPositionOnlyHitVisible()); // Получим новую сеточную позицию мыши
+        GridPositionXZ newMouseGridPosition = LevelGrid.Instance.GetGridPosition(GetPositionOnlyHitVisible()); // Получим новую сеточную позицию мыши
         if (LevelGrid.Instance.IsValidGridPosition(newMouseGridPosition) && _mouseGridPosition != newMouseGridPosition) // Если это ДОПУСТИМАЯ сеточная позиция и она не равна предыдущей то ...
         {
             OnMouseGridPositionChanged?.Invoke(this, new OnMouseGridPositionChangedEventArgs //запустим - Событие позиция мыши на сетке изменилось и передадим предыдущую и новою сеточную позицию

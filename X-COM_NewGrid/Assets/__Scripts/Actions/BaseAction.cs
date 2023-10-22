@@ -32,14 +32,14 @@ public abstract class BaseAction : MonoBehaviour    //Базовое Действие Этот клас
     public abstract string GetToolTip(); // Вернкть всплывающую подсказку
 
     public abstract int GetMaxActionDistance(); // Вернуть Дистанцию действия
-    public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete); //Generic Применить Действие (Действовать) В аргумент передаем сеточную позицию под курсором и делегат onActionComplete (При Завершении Действия, в нашем случае это ClearBusy() // Очистить занятость или стать свободным - активировать кнопки UI ) 
+    public abstract void TakeAction(GridPositionXZ gridPosition, Action onActionComplete); //Generic Применить Действие (Действовать) В аргумент передаем сеточную позицию под курсором и делегат onActionComplete (При Завершении Действия, в нашем случае это ClearBusy() // Очистить занятость или стать свободным - активировать кнопки UI ) 
 
-    public abstract List<GridPosition> GetValidActionGridPositionList(); //Получить Список Допустимых Сеточных Позиция для Действий
+    public abstract List<GridPositionXZ> GetValidActionGridPositionList(); //Получить Список Допустимых Сеточных Позиция для Действий
 
-    public virtual bool IsValidActionGridPosition(GridPosition gridPosition) //(Проверяем) Является ли Сеточная позиция Допустимой для Действия //Сделаем virtual- если понадобиться переопределить где нибудь
+    public virtual bool IsValidActionGridPosition(GridPositionXZ gridPosition) //(Проверяем) Является ли Сеточная позиция Допустимой для Действия //Сделаем virtual- если понадобиться переопределить где нибудь
     {
-        List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-        return validGridPositionList.Contains(gridPosition); // Если наша _gridPosition содержиться в листе допустимых позиций, то вернется  истина
+        List<GridPositionXZ> validGridPositionList = GetValidActionGridPositionList();
+        return validGridPositionList.Contains(gridPosition); // Если наша _gridPositioAnchor содержиться в листе допустимых позиций, то вернется  истина
     }
 
     public virtual int GetActionPointCost() // Получить Расход Очков на Действие (Стоимость действия) //Сделаем virtual- если понадобиться переопределить где нибудь 
@@ -72,9 +72,9 @@ public abstract class BaseAction : MonoBehaviour    //Базовое Действие Этот клас
     {
         List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>(); // Список Действий Вражеского ИИ
 
-        List<GridPosition> validActionGridPositionList = GetValidActionGridPositionList(); //Получить Список Допустимых Сеточных Позиция для Действий
+        List<GridPositionXZ> validActionGridPositionList = GetValidActionGridPositionList(); //Получить Список Допустимых Сеточных Позиция для Действий
 
-        foreach (GridPosition gridPosition in validActionGridPositionList) // Переберем все ячейки сетки из полученнного допустимого списка
+        foreach (GridPositionXZ gridPosition in validActionGridPositionList) // Переберем все ячейки сетки из полученнного допустимого списка
         {
             EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition); // Сгенерируем действия Вражеского ИИ для этого конкретого действия в этой позиции сетки
             enemyAIActionList.Add(enemyAIAction); // Добавим сгенерируемое действие в список (Для каждого действия будет свой список)
@@ -107,5 +107,5 @@ public abstract class BaseAction : MonoBehaviour    //Базовое Действие Этот клас
 
     }
 
-    public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition); //Получить действие вражеского ИИ и ОЦЕНКУ действия для _gridPosition // abstract - вынуждает реализовывать в каждом подклассе и в базовом должно иметь пустое тело.
+    public abstract EnemyAIAction GetEnemyAIAction(GridPositionXZ gridPosition); //Получить действие вражеского ИИ и ОЦЕНКУ действия для _gridPositioAnchor // abstract - вынуждает реализовывать в каждом подклассе и в базовом должно иметь пустое тело.
 }

@@ -14,7 +14,7 @@ public class DestructibleCrate : MonoBehaviour // Разрушаемый ящик
     [SerializeField] private Transform _crate; // целый ящик //Откючение Рендер не подойдет т.к. при смене этажа камерой, рендер проверяется и включается заново
     [SerializeField] private Transform _crateDestroyed; // Разрушенный ящик     
 
-    private GridPosition _gridPosition; // Позиция сетки нашего ящика
+    private GridPositionXZ _gridPosition; // Позиция сетки нашего ящика
     private SingleNodeBlocker _singleNodeBlocker;
 
     private void Awake()
@@ -42,7 +42,7 @@ public class DestructibleCrate : MonoBehaviour // Разрушаемый ящик
         OnAnyDestroyed?.Invoke(this, EventArgs.Empty);
     }
 
-    public GridPosition GetGridPosition()
+    public GridPositionXZ GetGridPosition()
     {
         return _gridPosition;
     }

@@ -48,7 +48,11 @@ MonoBehaviour:
     type: 3}
   bulletProjectilePrefab: {fileID: 1442843218133040567, guid: fb38485b2cf2b7b47b60dda063b8157b,
     type: 3}
-  gridSystemVisualSinglePrefab: {fileID: 8005569743934790880, guid: 1072dce5c5edd4f4ebc287c19b6a5c43,
+  placedObjectTypeButtonPrefab: {fileID: 580290972513468962, guid: 7c40f42c73910994e83e1125fb769b7d,
+    type: 3}
+  levelGridSystemVisualSinglePrefab: {fileID: 8005569743934790880, guid: 1072dce5c5edd4f4ebc287c19b6a5c43,
+    type: 3}
+  inventoryGridSystemVisualSinglePrefab: {fileID: 8005569743934790880, guid: 770019eb39762254fb001ae827020869,
     type: 3}
   comboPartnerFXPrefab: {fileID: 6081788327355037694, guid: bd1380fd0f6c9bd4cb420ca4f68a14cd,
     type: 3}

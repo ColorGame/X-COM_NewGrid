@@ -24,7 +24,9 @@ public class GameAssets : MonoBehaviour //Игровые Активы
 
     public Transform grenadeProjectilePrefab; // Префаб граната
     public Transform bulletProjectilePrefab; // Префаб пули
-    public Transform gridSystemVisualSinglePrefab; // Префаб визуализации узла сетки
+    public Transform placedObjectTypeButtonPrefab; // Кнопка выбора оружия
+    public Transform levelGridSystemVisualSinglePrefab; // Префаб визуализации узла сетки
+    public Transform inventoryGridSystemVisualSinglePrefab; // Префаб визуализации узла сетки Инвенторя
     public Transform comboPartnerFXPrefab; // Префаб  частички взаимодействия
     public Transform grenadeExplosionFXPrefab; // Префаб частички взрыва гранаты //НЕЗАБУДЬ ПОСТАВИТЬ ГАЛОЧКУ У TRAIL самоуничтожение(Destroy) после проигрывания
     public Transform grenadeSmokeFXPrefab; // Префаб дыма от гранаты // Уничтожать дым будет скрипт прикрипленный к нему

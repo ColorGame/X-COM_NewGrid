@@ -200,9 +200,9 @@ public class LevelScripting : MonoBehaviour // Уровень. Отвечает за взаимодейств
 
 
 
-    /* private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, LevelGrid.OnAnyInventoryMovedGridPositionEventArgs e)
+    /* private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, LevelGrid.OnPlacedObjectOverGridPositionEventArgs e)
      {
-         if (e.toGridPosition.z == 5 && !_hasShownFirstHider) // Если игрок пройдет вверх 5 клеток(ячеек) и Еще не были показаны первые враги то...
+         if (e.toGridPosition.y == 5 && !_hasShownFirstHider) // Если игрок пройдет вверх 5 клеток(ячеек) и Еще не были показаны первые враги то...
          {
              _hasShownFirstHider = true; // Можем показать первый скрытый отряд врагов
              SetActiveGameObjectList(_hider1List, false); // Выключим полотно которое скрывает

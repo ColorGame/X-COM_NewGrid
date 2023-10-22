@@ -24,7 +24,7 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
 
 
     protected int _maxThrowDistance = 5; //Максимальная дальность броска //НУЖНО НАСТРОИТЬ//
-    protected GridPosition _targetGridPositin;
+    protected GridPositionXZ _targetGridPositin;
     protected GrenadeProjectile _grenadeProjectile;
     protected HandleAnimationEvents _handleAnimationEvents; // Обработчик Анимационных событий
 
@@ -62,7 +62,7 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
 
                 Vector3 targetPositin = LevelGrid.Instance.GetWorldPosition(_targetGridPositin);
                 Vector3 targetDirection = (targetPositin - transform.position).normalized; // Направление к целивой ячейки, еденичный вектор
-                targetDirection.y = 0; // Чтобы юнит не наклонялся пли броске (т.к. вектор будет поворачиваться только по плоскости x,z)
+                targetDirection.y = 0; // Чтобы юнит не наклонялся пли броске (т.к. вектор будет поворачиваться только по плоскости x,y)
 
                 float rotateSpeed = 10f; //НУЖНО НАСТРОИТЬ//
                 transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * rotateSpeed); // поворт юнита.                
@@ -105,11 +105,11 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
         //Debug.Log(_state);
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                       
+    public override List<GridPositionXZ> GetValidActionGridPositionList()// Получить Список Допустимых Сеточных Позиция для Действий // переопределим базовую функцию                                                                       
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        List<GridPositionXZ> validGridPositionList = new List<GridPositionXZ>();
 
-        GridPosition unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
+        GridPositionXZ unitGridPosition = _unit.GetGridPosition(); // Получим позицию в сетке юнита
 
         for (int x = -_maxThrowDistance; x <= _maxThrowDistance; x++) // Юнит это центр нашей позиции с координатами unitGridPosition, поэтому переберем допустимые значения в условном радиусе _maxComboDistance
         {
@@ -118,8 +118,8 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
                 for (int floor = -_maxThrowDistance; floor <= _maxThrowDistance; floor++)
                 {
 
-                    GridPosition offsetGridPosition = new GridPosition(x, z, floor); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
-                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
+                    GridPositionXZ offsetGridPosition = new GridPositionXZ(x, z, floor); // Смещенная сеточная позиция. Где началом координат(0,0, 0-этаж) является сам юнит 
+                    GridPositionXZ testGridPosition = unitGridPosition + offsetGridPosition; // Тестируемая Сеточная позиция
 
                     if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) // Проверим Является ли testGridPosition Допустимой Сеточной Позицией если нет то переходим к след циклу
                     {
@@ -135,7 +135,7 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
 
                     LevelGridNode levelGridNode = LevelGrid.Instance.GetGridNode(testGridPosition);
 
-                    //если в этой позиции нет узла пути значит эта GridPosition висит в воздухе  
+                    //если в этой позиции нет узла пути значит эта GridPositionXZ висит в воздухе  
                     if (levelGridNode == null)
                     {
                         continue; // Пропустим эту позицию
@@ -188,7 +188,7 @@ public abstract class GrenadeAction : BaseAction // Граната ДЕйствие. Наследует 
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)  // Переопределим TakeAction Выполнение действий . (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
+    public override void TakeAction(GridPositionXZ gridPosition, Action onActionComplete)  // Переопределим TakeAction Выполнение действий . (Делегат onActionComplete - по завершении действия). в нашем случае делегату передаем функцию ClearBusy - очистить занятость
     {
         _state = State.GrenadeBefore; // Активируем состояние Подготовки ГРАНАТЫ
         float beforeGrenadeStateTime = 0.5f; //До ГРАНАТЫ.  Для избежания магических чисель введем переменную  Продолжительность Состояния подготовки перед ГРАНАТОЙ ..//НУЖНО НАСТРОИТЬ//

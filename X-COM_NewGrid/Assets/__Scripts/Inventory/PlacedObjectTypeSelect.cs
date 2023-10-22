@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlacedObjectTypeSelect : MonoBehaviour // Выбранный Тип Размещаемого Объекта // Создает кнопки для выбора инвенторя
-{
-    [SerializeField] private Transform _selectPlacedObjectButtonPrefab; // Префаб кнопка выделенного Размещаемого Объекта
-    [SerializeField] private Transform _placedObjectTypeSelectContainer; // Контейнер для кнопок     
+{    
+    [SerializeField] private Transform _placedObjectTypeSelectContainer; // Контейнер для кнопок       
     [SerializeField] private List<PlacedObjectTypeSO> _ignorePlacedObjectTypeList; // Список Объектов которые надо игнорировать при создании кнопок выделения
+    
+
 
     private Dictionary<PlacedObjectTypeSO, Transform> _buttonTransformDictionary; // Словарь (Тип Размещаемого Объекта - ключ, Transform- -значение)
-    private PlacedObjectTypeListSO _placedObjectTypeList; // Список типов Размещаемого Объекта
-
+    private PlacedObjectTypeListSO _placedObjectTypeList; // Список типов Размещаемого Объекта    
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class PlacedObjectTypeSelect : MonoBehaviour // Выбранный Тип Размещаемог
 
     private void Start()
     {
-       CreatePlacedObjectTypeButton(); // Создать Кнопки типов Размещаемых объектов
+        CreatePlacedObjectTypeButton(); // Создать Кнопки типов Размещаемых объектов
     }
 
 
@@ -37,16 +37,23 @@ public class PlacedObjectTypeSelect : MonoBehaviour // Выбранный Тип Размещаемог
         {
             if (_ignorePlacedObjectTypeList.Contains(placedType)) continue; // Пропустим объекты для которых не надо создавать кнопки
 
-            Transform buttonTransform = Instantiate(_selectPlacedObjectButtonPrefab, transform); // Создадим кнопку и сделаем дочерним к этому объекту
+            Transform buttonTransform = Instantiate(GameAssets.Instance.placedObjectTypeButtonPrefab, _placedObjectTypeSelectContainer); // Создадим кнопку и сделаем дочерним к контенеру
 
             Transform visualButton = Instantiate(placedType.visual, buttonTransform); // Создадим Визуал кнопки в зависимости от типа размещаемого объекта и сделаем дочерним к кнопке 
 
+            Transform[] childrenArray = visualButton.GetComponentsInChildren<Transform>(); // Найдем все дочернии объекты визуала и изменим слой, что бы они не рендерились за гранимцами маски
+            foreach (Transform child in childrenArray)
+            {
+                child.gameObject.layer = 13;
+            }
+            
             buttonTransform.GetComponent<Button>().onClick.AddListener(() => //Добавим событие при нажатии на нашу кнопку// AddListener() в аргумент должен получить делегат- ссылку на функцию. Функцию будем объявлять АНАНИМНО через лямбду () => {...} 
             {
-                PlacedObject.CreateInWorld(buttonTransform.position + new Vector3 (-1,0,0), PlacedObjectTypeSO.Dir.Right , placedType); // Создадим нужный объект              
+                PickUpDropManager.Instance.CreatePlacedObject(buttonTransform.position, placedType); // Создадим нужный объект в позиции кнопки                
             });
 
             MouseEnterExitEventsUI mouseEnterExitEventsUI = buttonTransform.GetComponent<MouseEnterExitEventsUI>(); // Найдем на кнопке компонент - События входа и выхода мышью 
+           
             mouseEnterExitEventsUI.OnMouseEnter += (object sender, EventArgs e) => // Подпишемся на событие
             {
                 TooltipUI.Instance.Show(placedType.nameString + "\n" + "характеристики"); // При наведении на кнопку покажем подсказку и передадим текст
@@ -56,7 +63,7 @@ public class PlacedObjectTypeSelect : MonoBehaviour // Выбранный Тип Размещаемог
                 TooltipUI.Instance.Hide(); // При отведении мыши скроем подсказку
             };
 
-            _buttonTransformDictionary[placedType] = buttonTransform; // Присвоим каждому ключу значение (Каждому типу ЗДАНИЙ свой Трансформ кнопки созданного из шаблона)
+            _buttonTransformDictionary[placedType] = buttonTransform; // Присвоим каждому ключу значение (Каждому типу объекта свой Трансформ кнопки созданного из шаблона)
         }
     }
 

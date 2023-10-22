@@ -15,5 +15,5 @@ MonoBehaviour:
   nameString: Rifle
   prefab: {fileID: 3656954414905745779, guid: 7d8064287eb1a7a4c99b936d8c23245c, type: 3}
   visual: {fileID: 4927416628375602924, guid: 29ceabbf765f72b408f89a17c0994c58, type: 3}
-  widthX: 2
-  heightY: 1
+  widthX: 5
+  heightY: 2

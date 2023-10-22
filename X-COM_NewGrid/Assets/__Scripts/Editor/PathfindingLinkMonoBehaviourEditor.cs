@@ -20,7 +20,7 @@ public class PathfindingLinkMonoBehaviourEditor : Editor
         Vector3 newLinkPositionB = Handles.PositionHandle(pathfindingLinkMonoBehaviour.linkPositionB, Quaternion.identity);
         if (EditorGUI.EndChangeCheck()) // bool Возвращает true, если состояние графического интерфейса изменилось с момента вызова EditorGUI.BeginChangeCheck, в противном случае false.
         {
-            Undo.RecordObject(pathfindingLinkMonoBehaviour, "Изменить положение ссылки"); // Записывает все изменения, внесенные в объект после функции RecordObject. Что бы после нажатия ctr + z можно было откатиться
+            Undo.RecordObject(pathfindingLinkMonoBehaviour, "Изменить положение ссылки"); // Записывает все изменения, внесенные в объект после функции RecordObject. Что бы после нажатия ctr + y можно было откатиться
             pathfindingLinkMonoBehaviour.linkPositionA = newLinkPositionA;
             pathfindingLinkMonoBehaviour.linkPositionB = newLinkPositionB;
         }

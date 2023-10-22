@@ -403,7 +403,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeede50a330f070409e2d4c1d2d3447a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invert: 1
 --- !u!114 &340000010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10323,7 +10322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeede50a330f070409e2d4c1d2d3447a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invert: 1
 --- !u!96 &5984269120520298886
 TrailRenderer:
   serializedVersion: 3

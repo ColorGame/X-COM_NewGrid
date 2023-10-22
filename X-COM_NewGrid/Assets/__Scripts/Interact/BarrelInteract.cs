@@ -14,7 +14,7 @@ public class BarrelInteract : MonoBehaviour, IInteractable // Бочка Взаимодейств
     [SerializeField] private Transform _barrelDestroyed; //Разрушенная бочка
 
 
-    private GridPosition _gridPosition;
+    private GridPositionXZ _gridPosition;
     private Action _onInteractionComplete; // Делегат Взаимодействие Завершено// Объявляю делегат в пространстве имен - using System;
                                            //Сохраним наш делегат как обыкновенную переменную (в ней будет храниться функия которую мы передадим).
                                            //Action- встроенный делегат. Есть еще встроен. делегат Func<>. 
@@ -22,7 +22,7 @@ public class BarrelInteract : MonoBehaviour, IInteractable // Бочка Взаимодейств
                                            //СВОЙСТВО Делегата. Может вызывать закрытую функцию из другого класса
     private bool _isActive;
     private float _timer;// Таймер что бы взаимодействие было не мгновенным и кномки экшена были отключены некоторое время
-    private SingleNodeBlocker _singleNodeBlocker;
+    private SingleNodeBlocker _singleNodeBlocker; // блокировщик пути
     private Collider _collider;
 
     private void Awake()
@@ -38,7 +38,7 @@ public class BarrelInteract : MonoBehaviour, IInteractable // Бочка Взаимодейств
         LevelGrid.Instance.SetInteractableAtGridPosition(_gridPosition, this); // Установить полученный Интерфейс Взаимодействия в этой сеточной позиции
         _singleNodeBlocker.BlockAtCurrentPosition();// Заблокирую узел
 
-        // PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPosition, false); // Установить что Можно или Нельзя (в зависимости от isWalkable)  ходить по переданной в аргумент Сеточной Позиции
+        // PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPositioAnchor, false); // Установить что Можно или Нельзя (в зависимости от isWalkable)  ходить по переданной в аргумент Сеточной Позиции
     }
 
     private void Update()
@@ -76,7 +76,7 @@ public class BarrelInteract : MonoBehaviour, IInteractable // Бочка Взаимодейств
 
         GraphNode graphNode = AstarPath.active.GetNearest(transform.position).node; // Получим проверяемый узел
         BlockManager.Instance.InternalUnblock(graphNode, _singleNodeBlocker); // Разблокируем узел
-        //PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPosition, true); // Установить что Можно ходить по этой ячейки
+        //PathfindingMonkey.Instance.SetIsWalkableGridPosition(_gridPositioAnchor, true); // Установить что Можно ходить по этой ячейки
 
         OnBarrelInteractlActivated?.Invoke(this, EventArgs.Empty); // Запустим событие - Бочка Взаимодействия Активированна
     }

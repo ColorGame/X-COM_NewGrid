@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PathNode // Узел поиска пути // Будет создается в каждой ячейки сетки, И будет хранить в себе частные данные для расчета поиска пути G H F
                       // Стандартный класс C#// Будем использовать конструктор для создания нашей сетки поэтому он не наследует MonoBehaviour
-                      // класс нападоби GridObject
+                      // класс нападоби GridObjectUnitXZ
 {
 
-    private GridPosition _gridPosition;
+    private GridPositionXZ _gridPosition;
     private int _gCost;  // Стоимость смещения до ближайщей ячейки. по диоганали вычисляется из теоремы пифагора. Длина гипотенузы в прямоугольном треугольнике(корень квадратный из суммы квадратов сторон)
                          // В стартовой позиции G = 0. После смещениря в другую ячейку по прямой эта величина увеличиться на G = 0 + gCost. Смещяемся еще раз, допустим по диоганале тогда G = 0 + gCost +корень квадратный из суммы квадратов-gCost  
     private int _hCost;  // Стоимость смещения до цели по кратчайшему пути (грубо говоря длина по прямой)// Чем ближе к цели тем меньше будет это число
@@ -15,7 +15,7 @@ public class PathNode // Узел поиска пути // Будет создается в каждой ячейки сет
     private PathNode _cameFromPathNode; // Получено из PathNode // В каждой ячейки нам нужна ссылка на ячейку откуда мы прибыли
     private bool _isWalkeble = true; // Можно ходить // Для настроики непроходимых узлов
 
-    public PathNode(GridPosition gridPosition) // Конструктор
+    public PathNode(GridPositionXZ gridPosition) // Конструктор
     {
         _gridPosition = gridPosition;
     }
@@ -70,7 +70,7 @@ public class PathNode // Узел поиска пути // Будет создается в каждой ячейки сет
         return _cameFromPathNode;
     }
 
-    public GridPosition GetGridPosition()
+    public GridPositionXZ GetGridPosition()
     {
         return _gridPosition;
     }
